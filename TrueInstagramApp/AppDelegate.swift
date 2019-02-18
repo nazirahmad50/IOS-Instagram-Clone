@@ -7,6 +7,8 @@
 //
 
 import UIKit
+import Parse
+import Bolts
 
 @UIApplicationMain
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -15,7 +17,22 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplicationLaunchOptionsKey: Any]?) -> Bool {
-        // Override point for customization after application launch.
+       
+        let parseConfig = ParseClientConfiguration { (ParseMutableClientConfiguration) in
+            
+            //accessing Back4App app via id/key
+            ParseMutableClientConfiguration.applicationId = "zeCpDlBiZ2qc6hVztXg7akfhzkCyUClEPf7m2Ngf"
+            ParseMutableClientConfiguration.clientKey = "8QwRXFfdJy0jPrDpiWUHLZq1czOar4CBL5SYbMDA"
+            ParseMutableClientConfiguration.server = "https://parseapi.back4app.com"
+            
+        }
+        Parse.initialize(with: parseConfig)
+        //call the login method in this class
+        login()
+        
+        //color of windows espicialy for comment text and button
+        window?.backgroundColor = UIColor.white
+        
         return true
     }
 
@@ -39,6 +56,18 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func applicationWillTerminate(_ application: UIApplication) {
         // Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+    }
+    
+    func login (){
+        
+        //remembers users login
+        let userName = UserDefaults.standard.string(forKey: "username")
+        
+        if userName != nil{
+            let storyBoard : UIStoryboard = UIStoryboard(name: "Main", bundle: nil)
+            let myTapBar = storyBoard.instantiateViewController(withIdentifier: "tapBar")
+            window?.rootViewController = myTapBar
+        }
     }
 
 
